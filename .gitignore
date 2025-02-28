@@ -1,0 +1,7 @@
+logs/dev/*
+logs/prod/*
+
+.env
+
+.DS_Store
+

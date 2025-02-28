@@ -21,15 +21,8 @@ db = mongo_client.myapp
 
 @app.get("/")
 async def root():
-    # Redis 카운터 증가
-    # visits = redis.incr("visit_counter")
-    
-    # MongoDB에 방문 기록 저장
-    # await db.visits.insert_one({"timestamp": "now"})
-    
     return {
         "message": "Hello World",
-        # "visits": visits
     }
 
 @app.get("/health")

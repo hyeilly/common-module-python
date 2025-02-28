@@ -33,16 +33,37 @@ export const options = {
 
 // 테스트 실행 함수
 export default function () {
-  // API 호출 (root 엔드포인트)
-  const response = http.get('http://nginx/');
+  // 기본 API 호출
+  const rootResponse = http.get('http://nginx/');
+  
+  // ODM 테스트 API 호출
+  const motorResponse = http.post('http://nginx/visit/motor');
+  const mongoengineResponse = http.post('http://nginx/visit/mongoengine');
+  const beanieResponse = http.post('http://nginx/visit/beanie');
   
   // 응답 시간 기록
-  requestDuration.add(response.timings.duration);
+  requestDuration.add(rootResponse.timings.duration);
+  requestDuration.add(motorResponse.timings.duration);
+  requestDuration.add(mongoengineResponse.timings.duration);
+  requestDuration.add(beanieResponse.timings.duration);
 
   // 응답 검증
-  const checkResult = check(response, {
+  const checkResult = check(rootResponse, {
     'status is 200': (r) => r.status === 200,
     'response time OK': (r) => r.timings.duration < 500,
+  });
+
+  // ODM 응답 검증
+  check(motorResponse, {
+    'motor insert successful': (r) => r.status === 200 && r.json().id !== undefined,
+  });
+  
+  check(mongoengineResponse, {
+    'mongoengine insert successful': (r) => r.status === 200 && r.json().id !== undefined,
+  });
+  
+  check(beanieResponse, {
+    'beanie insert successful': (r) => r.status === 200 && r.json().id !== undefined,
   });
 
   // 체크 실패 시 에러율 증가
