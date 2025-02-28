@@ -1,7 +1,10 @@
-logs/dev/*
-logs/prod/*
+logs/dev/*.log
+logs/prod/*.log
 
 .env
-
 .DS_Store
+.venv
+.pytest_cache
+.mypy_cache
+__pycache__
 
